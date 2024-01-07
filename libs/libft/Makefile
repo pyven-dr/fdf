@@ -1,4 +1,4 @@
-CFILES = ft_atoi.c \
+SRC = ft_atoi.c \
 	 ft_bzero.c \
 	 ft_isalnum.c \
 	 ft_isalpha.c \
@@ -48,28 +48,46 @@ CFILES = ft_atoi.c \
 	 add_vector.c \
 	 get_elem_vector.c
 
-OFILES = $(CFILES:.c=.o)
+SRC_DIR = src
+
+BUILD_DIR = .build
+
+INCLUDE_DIR = include
+
+OBJ = $(addprefix $(BUILD_DIR)/, $(SRC:.c=.o))
+
+DEP = $(OBJ:.o=.d)
 
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
+DFLAGS = -MD -MP
+
+IFLAGS = \
+		 -I $(INCLUDE_DIR)
+
 NAME = libft.a
 
+.PHONY: all
 all: $(NAME)
 
-$(NAME): $(OFILES)
-	ar crs $(NAME) $(OFILES)
+$(NAME): $(OBJ)
+	ar crs $(NAME) $(OBJ)
 
-%.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+-include $(DEP)
 
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
+
+.PHONY: clean
 clean:
-	rm -f $(OFILES)
+	$(RM) -r $(BUILD_DIR)
 
+.PHONY: fclean
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
+.PHONY: re
 re: fclean all
-
-.PHONY: clean fclean re all

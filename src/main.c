@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "minilibx-linux/mlx.h"
 #include <X11/keysym.h>
 
 int	key_event(int key, t_win_data data)
@@ -29,10 +28,10 @@ int main(void)
 	t_win_data data;
 	t_line line;
 
-	line.x0 = 100;
-	line.y0 = 100;
-	line.x1 = 200;
-	line.y1 = 101;
+	line.x0 = 46;
+	line.y0 = 72;
+	line.x1 = 87;
+	line.y1 = 19;
 	data.ptr = mlx_init();
 	data.win = mlx_new_window(data.ptr, 1920, 1080, "fdf");
 	bresenham(line, data);

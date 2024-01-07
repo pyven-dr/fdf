@@ -34,8 +34,8 @@ typedef struct s_line
 	int	y1;
 }	t_line;
 
-# include "libft/libft.h"
-# include "minilibx-linux/mlx.h"
+# include "libft.h"
+# include "mlx.h"
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
