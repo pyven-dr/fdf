@@ -11,11 +11,14 @@ IFLAGS = \
 		 -I $(LIBFT_DIR)/$(INCLUDE_DIR) \
 		 -I $(MLX_DIR)
 
-LFLAGS = -Lmlx_linux -lXext -lX11
+LFLAGS = -Lmlx_linux -lXext -lX11 -lm
 
 SRC =  main.c \
 		parsing.c \
 		bresenham.c \
+		apply_projection.c \
+		window.c \
+		connect_pts.c \
 
 BUILD_DIR = .build
 
