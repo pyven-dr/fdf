@@ -12,8 +12,6 @@
 
 #include "fdf.h"
 
-#include <stdio.h>
-
 static int	get_sign(int num)
 {
 	if (num < 0)
@@ -23,19 +21,20 @@ static int	get_sign(int num)
 	return (0);
 }
 
-static void	bresenham_smaller(t_line line, t_win_data *data)
+static void	bresenham_smaller(t_line line, t_data *data)
 {
 	int	y;
 	int	slope;
 	int	error;
 	int	x;
+
 	x = line.x0;
 	y = line.y0;
 	slope = 2 * abs(line.y1 - line.y0);
 	error = -abs(line.x1 - line.x0);
 	while (x != line.x1 + get_sign(line.x1 - line.x0))
 	{
-		my_mlx_pixel_put(data->image,x, y, 4257279);
+		my_mlx_pixel_put(data->img, x, y, 4257279);
 		error += slope;
 		if (error >= 0)
 		{
@@ -46,7 +45,7 @@ static void	bresenham_smaller(t_line line, t_win_data *data)
 	}
 }
 
-static void	bresenham_bigger(t_line line, t_win_data *data)
+static void	bresenham_bigger(t_line line, t_data *data)
 {
 	int	y;
 	int	slope;
@@ -59,7 +58,7 @@ static void	bresenham_bigger(t_line line, t_win_data *data)
 	error = -abs(line.y1 - line.y0);
 	while (y != line.y1 + get_sign(line.y1 - line.y0))
 	{
-		my_mlx_pixel_put(data->image, x, y, 4257279);
+		my_mlx_pixel_put(data->img, x, y, 4257279);
 		error += slope;
 		if (error >= 0)
 		{
@@ -70,17 +69,18 @@ static void	bresenham_bigger(t_line line, t_win_data *data)
 	}
 }
 
-void	bresenham(t_line line, t_win_data *data)
+void	bresenham(t_line line, t_data *data)
 {
 	int	dx;
 	int	dy;
+
 	dx = abs(line.x1 - line.x0);
 	dy = abs(line.y1 - line.y0);
 	if (dy == 0)
 	{
 		while (line.x0 != line.x1 + get_sign(line.x1 - line.x0))
 		{
-			my_mlx_pixel_put(data->image, line.x0, line.y0, 4257279);
+			my_mlx_pixel_put(data->img, line.x0, line.y0, 4257279);
 			line.x0 += get_sign(line.x1 - line.x0);
 		}
 	}
@@ -88,14 +88,12 @@ void	bresenham(t_line line, t_win_data *data)
 	{
 		while (line.y0 != line.y1 + get_sign(line.y1 - line.y0))
 		{
-			my_mlx_pixel_put(data->image, line.x0, line.y0, 4257279);
+			my_mlx_pixel_put(data->img, line.x0, line.y0, 4257279);
 			line.y0 += get_sign(line.y1 - line.y0);
 		}
 	}
-	else if (dx >= dy) {
+	else if (dx >= dy)
 		bresenham_smaller(line, data);
-	}
-	else {
+	else
 		bresenham_bigger(line, data);
-	}
 }

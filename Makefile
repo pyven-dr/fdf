@@ -17,8 +17,11 @@ SRC =  main.c \
 		parsing.c \
 		bresenham.c \
 		apply_projection.c \
-		window.c \
+		hooks.c \
 		connect_pts.c \
+		move.c \
+		window.c \
+		apply_rotation.c \
 
 BUILD_DIR = .build
 
@@ -44,7 +47,7 @@ NAME = fdf
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX)
-	$(CC) -o $(NAME) $(CFLAGS) $(LFLAGS)  $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX)
+	$(CC) -o $(NAME) $(CFLAGS) $(LFLAGS)  $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX) -g
 
 -include $(DEP)
 

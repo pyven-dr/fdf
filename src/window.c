@@ -5,19 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pyven-dr <pyven-dr@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 09:27:07 by pyven-dr          #+#    #+#             */
-/*   Updated: 2024/01/09 09:27:07 by pyven-dr         ###   ########.fr       */
+/*   Created: 2024/01/11 07:58:54 by pyven-dr          #+#    #+#             */
+/*   Updated: 2024/01/11 07:58:54 by pyven-dr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	close_window(void *param)
 {
-	char	*dst;
+	t_data *data;
 
-	if (x >= WIDTH || y >= HEIGHT)
-		return ;
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	data = (t_data *)param;
+	mlx_destroy_window(data->ptr, data->win);
+	mlx_destroy_display(data->ptr);
+	del_vector(data->vector);
+	free(data->img);
+	free(data->ptr);
+	free(data);
+	exit(0);
 }

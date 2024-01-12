@@ -12,30 +12,23 @@
 
 #include "fdf.h"
 
-t_vector	*apply_isometric(t_vector *vector)
+static t_data	*revert_values(t_data *data, int x_min, int y_min)
 {
 	size_t	i;
 	t_point	*point;
-	double	xp;
-	double	yp;
 
 	i = 0;
-	while (i < vector->size)
+	while (i < data->vector->size)
 	{
-		point = (t_point *)get_elem_vector(vector, i);
-		xp = ((sqrt(2.0) * point->x - sqrt(2.0) * point->y) / 2.0);
-		yp = ((sqrt(2.0 / 3.0) * point->z) - \
-			(1.0 / sqrt(6.0)) * (point->x + point->y));
-		xp *= (double)WIDTH / (point->x + 100) + 0.5;
-		yp *= (double)HEIGHT / (point->y + 100) + 0.5;
-		point->xp = (int)xp;
-		point->yp = (int)yp;
+		point = get_elem_vector(data->vector, i);
+		point->xp += -(x_min) + data->trans_x;
+		point->yp += -(y_min) + data->trans_y;
 		i++;
 	}
-	return (adjust_neg(vector));
+	return (data);
 }
 
-t_vector	*adjust_neg(t_vector *vector)
+static t_data	*adjust_neg(t_data *data)
 {
 	int		x_min;
 	int		y_min;
@@ -43,33 +36,49 @@ t_vector	*adjust_neg(t_vector *vector)
 	size_t	i;
 
 	i = 1;
-	point = get_elem_vector(vector, 0);
+	point = get_elem_vector(data->vector, 0);
 	x_min = point->xp;
 	y_min = point->yp;
-	while (i < vector->size)
+	while (i < data->vector->size)
 	{
-		point = get_elem_vector(vector, i);
+		point = get_elem_vector(data->vector, i);
 		if (x_min > point->xp)
 			x_min = point->xp;
 		if (y_min > point->yp)
 			y_min = point->yp;
 		i++;
 	}
-	return (revert_values(vector, x_min, y_min));
+	return (revert_values(data, x_min, y_min));
 }
 
-t_vector	*revert_values(t_vector *vector, int x_min, int y_min)
+t_data	*apply_isometric(t_data *data)
 {
 	size_t	i;
 	t_point	*point;
+	t_point	*temp;
+	double	xp;
+	double	yp;
 
 	i = 0;
-	while (i < vector->size)
+	temp = malloc(sizeof(t_point));
+	while (i < data->vector->size)
 	{
-		point = get_elem_vector(vector, i);
-		point->xp += -(x_min+y_min);
-		point->yp += -(y_min+x_min);
+		point = (t_point *)get_elem_vector(data->vector, i);
+		temp->x = point->x;
+		temp->y = point->y;
+		temp->z = point->z;
+		apply_rx(data->rot_x, &temp->y, &temp->z);
+		apply_ry(data->rot_y, &temp->x, &temp->z);
+		apply_rz(data->rot_z, &temp->x, &temp->y);
+		xp = ((sqrt(2.0) * temp->x - sqrt(2.0) * temp->y) / 2.0);
+		yp = ((sqrt(2.0 / 3.0) * temp->z) - \
+			(1.0 / sqrt(6.0)) * (temp->x + temp->y));
+		xp *= data->zoom;
+		yp *= data->zoom;
+		point->xp = (int)xp;
+		point->yp = (int)yp;
 		i++;
 	}
-	return (vector);
+	free(temp);
+	return (adjust_neg(data));
 }
