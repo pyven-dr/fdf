@@ -46,7 +46,8 @@ SRC = ft_atoi.c \
 	 new_vector.c \
 	 del_vector.c \
 	 add_vector.c \
-	 get_elem_vector.c
+	 get_elem_vector.c \
+	 ft_strcmp.c \
 
 SRC_DIR = src
 

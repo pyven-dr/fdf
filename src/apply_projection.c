@@ -51,6 +51,16 @@ static t_data	*adjust_neg(t_data *data)
 	return (revert_values(data, x_min, y_min));
 }
 
+static void	init_temp(const t_data *data, t_point *point, t_point *temp)
+{
+	temp->x = point->x;
+	temp->y = point->y;
+	temp->z = point->z;
+	apply_rx(data->rot_x, &temp->y, &temp->z);
+	apply_ry(data->rot_y, &temp->x, &temp->z);
+	apply_rz(data->rot_z, &temp->x, &temp->y);
+}
+
 t_data	*apply_isometric(t_data *data)
 {
 	size_t	i;
@@ -64,15 +74,10 @@ t_data	*apply_isometric(t_data *data)
 	while (i < data->vector->size)
 	{
 		point = (t_point *)get_elem_vector(data->vector, i);
-		temp->x = point->x;
-		temp->y = point->y;
-		temp->z = point->z;
-		apply_rx(data->rot_x, &temp->y, &temp->z);
-		apply_ry(data->rot_y, &temp->x, &temp->z);
-		apply_rz(data->rot_z, &temp->x, &temp->y);
-		xp = ((sqrt(2.0) * temp->x - sqrt(2.0) * temp->y) / 2.0);
-		yp = ((sqrt(2.0 / 3.0) * temp->z) - \
-			(1.0 / sqrt(6.0)) * (temp->x + temp->y));
+		init_temp(data, point, temp);
+		xp = (sqrt(2.0) * temp->x - sqrt(2.0) * temp->y) / 2.0;
+		yp = (sqrt(2.0 / 3.0) * temp->z) - \
+			(1.0 / sqrt(6.0)) * (temp->x + temp->y);
 		xp *= data->zoom;
 		yp *= data->zoom;
 		point->xp = (int)xp;

@@ -47,7 +47,6 @@ static int	key_press(int key, void *param)
 	else if (key == W || key == A || key == S || key == D \
 		|| key == Q || key == E)
 		rotate(key, data);
-
 	display_hook(data);
 	return (0);
 }

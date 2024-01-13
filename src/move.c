@@ -20,8 +20,6 @@ void	zoom(int key, t_data *data)
 		data->zoom--;
 	if (data->zoom < 1)
 		data->zoom = 1;
-#include <stdio.h>
-	printf("zoom %d\n",data->zoom);
 }
 
 void	translate(int key, t_data *data)
@@ -34,8 +32,6 @@ void	translate(int key, t_data *data)
 		data->trans_y += 10;
 	else if (key == DOWN_ARROW)
 		data->trans_y -= 10;
-
-	printf("x: %d y: %d\n",data->trans_x, data->trans_y);
 }
 
 void	rotate(int key, t_data *data)

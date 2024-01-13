@@ -12,9 +12,21 @@
 
 #include "fdf.h"
 
+void	init_window(t_data *data)
+{
+	data->zoom = 2;
+	data->trans_x = 450;
+	data->trans_y = 90;
+	data->rot_x = 3.1;
+	data->rot_y = 0;
+	data->rot_z = 0;
+	data->ptr = mlx_init();
+	data->win = mlx_new_window(data->ptr, 1920, 1080, "fdf");
+}
+
 int	close_window(void *param)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = (t_data *)param;
 	mlx_destroy_window(data->ptr, data->win);

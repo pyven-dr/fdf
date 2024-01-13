@@ -79,5 +79,6 @@ t_vector	*new_vector(size_t capacity, size_t elem_size);
 void		del_vector(t_vector *vector);
 int			add_vector(t_vector *vector, void *elem);
 void		*get_elem_vector(t_vector *vector, size_t index);
+int			ft_strcmp(char *s1, char *s2);
 
 #endif

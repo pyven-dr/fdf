@@ -17,25 +17,22 @@ int	main(int argc, char **argv)
 	t_data	*data;
 	int		fd;
 
-	data = malloc(sizeof(t_data));
-	data->img = malloc(sizeof(t_image));
-	argc = 1;
-	fd = open(argv[1], O_RDONLY);
-	data->vector = parsing(fd);
-	close(fd);
-	if (data->vector == NULL)
-		return (1);
-	data->zoom = 2;
-	data->trans_x = 450;
-	data->trans_y = 90;
-	data->rot_x = 3.1;
-	data->rot_y = 0;
-	data->rot_z = 0;
-	data->ptr = mlx_init();
-	data->win = mlx_new_window(data->ptr, 1920, 1080, "fdf");
-	controls(data);
-	display_hook(data);
-	mlx_loop(data->ptr);
-	del_vector(data->vector);
+	if (argc == 2 && check_file(argv[1]) != -1)
+	{
+		data = malloc(sizeof(t_data));
+		data->img = malloc(sizeof(t_image));
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			return (free(data), free(data->img), 1);
+		data->vector = parsing(fd);
+		close(fd);
+		if (data->vector == NULL)
+			return (free(data), free(data->img), 1);
+		init_window(data);
+		controls(data);
+		display_hook(data);
+		mlx_loop(data->ptr);
+		del_vector(data->vector);
+	}
 	return (0);
 }

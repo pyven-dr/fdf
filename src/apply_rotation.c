@@ -14,7 +14,7 @@
 
 void	apply_rx(double angle, double *y, double *z)
 {
-	double previous_y;
+	double	previous_y;
 
 	previous_y = *y;
 	*y = previous_y * cos(angle) + *z * sin(angle);
@@ -23,7 +23,7 @@ void	apply_rx(double angle, double *y, double *z)
 
 void	apply_ry(double angle, double *x, double *z)
 {
-	double previous_x;
+	double	previous_x;
 
 	previous_x = *x;
 	*x = previous_x * cos(angle) + *z * sin(angle);
@@ -32,8 +32,8 @@ void	apply_ry(double angle, double *x, double *z)
 
 void	apply_rz(double angle, double *x, double *y)
 {
-	double previous_x;
-	double previous_y;
+	double	previous_x;
+	double	previous_y;
 
 	previous_x = *x;
 	previous_y = *y;

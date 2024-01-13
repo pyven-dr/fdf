@@ -46,9 +46,9 @@ typedef struct s_data
 	int			zoom;
 	int			trans_x;
 	int			trans_y;
-	double 		rot_x;
-	double 		rot_y;
-	double 		rot_z;
+	double		rot_x;
+	double		rot_y;
+	double		rot_z;
 	t_vector	*vector;
 }	t_data;
 
@@ -86,9 +86,11 @@ void		controls(t_data *data);
 int			display_hook(t_data *data);
 void		translate(int key, t_data *data);
 int			close_window(void *param);
-void	apply_rx(double angle, double *y, double *z);
-void	apply_ry(double angle, double *x, double *z);
-void	apply_rz(double angle, double *x, double *y);
-void	rotate(int key, t_data *data);
+void		apply_rx(double angle, double *y, double *z);
+void		apply_ry(double angle, double *x, double *z);
+void		apply_rz(double angle, double *x, double *y);
+void		rotate(int key, t_data *data);
+void		init_window(t_data *data);
+int			check_file(char *file);
 
 #endif

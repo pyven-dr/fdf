@@ -22,6 +22,7 @@ SRC =  main.c \
 		move.c \
 		window.c \
 		apply_rotation.c \
+		check_file.c \
 
 BUILD_DIR = .build
 
