@@ -28,11 +28,12 @@ int	main(int argc, char **argv)
 		close(fd);
 		if (data->vector == NULL)
 			return (free(data), free(data->img), 1);
-		init_window(data);
-		controls(data);
+		if (init_window(data) == 1)
+			return (close_window(data), 1);
+		if (controls(data) == -1)
+			return (close_window(data), 1);
 		display_hook(data);
 		mlx_loop(data->ptr);
-		del_vector(data->vector);
 	}
 	return (0);
 }

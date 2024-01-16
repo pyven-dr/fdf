@@ -43,12 +43,15 @@ typedef struct s_data
 	void		*ptr;
 	void		*win;
 	t_image		*img;
-	int			zoom;
-	int			trans_x;
-	int			trans_y;
+	double		size_x;
+	size_t		size_y;
+	double		zoom;
+	double		trans_x;
+	double		trans_y;
 	double		rot_x;
 	double		rot_y;
 	double		rot_z;
+	double		z_scale;
 	t_vector	*vector;
 }	t_data;
 
@@ -75,6 +78,8 @@ typedef struct s_line
 # define D					100
 # define Q					113
 # define E					101
+# define R					114
+# define F					102
 
 t_vector	*parsing(int fd);
 void		bresenham(t_line line, t_data *data);
@@ -82,15 +87,18 @@ t_data		*apply_isometric(t_data *data);
 void		my_mlx_pixel_put(t_image *data, int x, int y, int color);
 void		connect_pts(t_vector *vector, t_data *data);
 void		zoom(int key, t_data *data);
-void		controls(t_data *data);
+int			controls(t_data *data);
 int			display_hook(t_data *data);
 void		translate(int key, t_data *data);
 int			close_window(void *param);
 void		apply_rx(double angle, double *y, double *z);
 void		apply_ry(double angle, double *x, double *z);
-void		apply_rz(double angle, double *x, double *y);
+void		apply_rz(t_data *data, double angle, double *x, double *y);
 void		rotate(int key, t_data *data);
-void		init_window(t_data *data);
+int			init_window(t_data *data);
 int			check_file(char *file);
+void		rescale_z(int key, t_data *data);
+void		height_size(t_data	*data);
+int			width_size(t_data *data);
 
 #endif

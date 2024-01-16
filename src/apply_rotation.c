@@ -30,13 +30,15 @@ void	apply_ry(double angle, double *x, double *z)
 	*z = -previous_x * sin(angle) + *z * cos(angle);
 }
 
-void	apply_rz(double angle, double *x, double *y)
+void	apply_rz(t_data *data, double angle, double *x, double *y)
 {
 	double	previous_x;
 	double	previous_y;
 
 	previous_x = *x;
 	previous_y = *y;
-	*x = previous_x * cos(angle) - previous_y * sin(angle);
-	*y = previous_x * sin(angle) + previous_y * cos(angle);
+	*x = (previous_x -(data->size_x / 2)) * cos(angle) \
+		- (previous_y -(data->size_y / 2)) * sin(angle);
+	*y = (previous_x -(data->size_x / 2)) * sin(angle) \
+		+ (previous_y -(data->size_y / 2)) * cos(angle);
 }

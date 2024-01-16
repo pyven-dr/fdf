@@ -31,8 +31,7 @@ static int	mouse_press(int key, int x, int y, void *param)
 	data = (t_data *)param;
 	if (key == MOUSE_SCROLL_UP || key == MOUSE_SCROLL_DOWN)
 		zoom(key, data);
-	display_hook(data);
-	return (0);
+	return (display_hook(data));
 }
 
 static int	key_press(int key, void *param)
@@ -47,13 +46,16 @@ static int	key_press(int key, void *param)
 	else if (key == W || key == A || key == S || key == D \
 		|| key == Q || key == E)
 		rotate(key, data);
-	display_hook(data);
-	return (0);
+	else if (key == R || key == F)
+		rescale_z(key, data);
+	return (display_hook(data));
 }
 
 int	display_hook(t_data *data)
 {
 	data->img->img = mlx_new_image(data->ptr, 1920, 1080);
+	if (data->img->img == NULL)
+		return (1);
 	data->img->addr = mlx_get_data_addr(data->img->img, \
 		&data->img->bits_per_pixel, &data->img->length, &data->img->endian);
 	apply_isometric(data);
@@ -62,9 +64,12 @@ int	display_hook(t_data *data)
 	return (0);
 }
 
-void	controls(t_data *data)
+int	controls(t_data *data)
 {
-	mlx_hook(data->win, 2, 1L << 0, key_press, data);
-	mlx_hook(data->win, 4, 1L << 2, mouse_press, data);
+	if (mlx_hook(data->win, 2, 1L << 0, key_press, data) == -1)
+		return (-1);
+	if (mlx_hook(data->win, 4, 1L << 2, mouse_press, data) == -1)
+		return (-1);
 	mlx_hook(data->win, 17, 0, close_window, data);
+	return (0);
 }

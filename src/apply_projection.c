@@ -12,53 +12,14 @@
 
 #include "fdf.h"
 
-static t_data	*revert_values(t_data *data, int x_min, int y_min)
-{
-	size_t	i;
-	t_point	*point;
-
-	i = 0;
-	while (i < data->vector->size)
-	{
-		point = get_elem_vector(data->vector, i);
-		point->xp += -(x_min) + data->trans_x;
-		point->yp += -(y_min) + data->trans_y;
-		i++;
-	}
-	return (data);
-}
-
-static t_data	*adjust_neg(t_data *data)
-{
-	int		x_min;
-	int		y_min;
-	t_point	*point;
-	size_t	i;
-
-	i = 1;
-	point = get_elem_vector(data->vector, 0);
-	x_min = point->xp;
-	y_min = point->yp;
-	while (i < data->vector->size)
-	{
-		point = get_elem_vector(data->vector, i);
-		if (x_min > point->xp)
-			x_min = point->xp;
-		if (y_min > point->yp)
-			y_min = point->yp;
-		i++;
-	}
-	return (revert_values(data, x_min, y_min));
-}
-
-static void	init_temp(const t_data *data, t_point *point, t_point *temp)
+static void	init_temp(t_data *data, t_point *point, t_point *temp)
 {
 	temp->x = point->x;
 	temp->y = point->y;
-	temp->z = point->z;
-	apply_rx(data->rot_x, &temp->y, &temp->z);
+	temp->z = point->z * data->z_scale;
+	apply_rz(data, data->rot_z, &temp->x, &temp->y);
 	apply_ry(data->rot_y, &temp->x, &temp->z);
-	apply_rz(data->rot_z, &temp->x, &temp->y);
+	apply_rx(data->rot_x, &temp->y, &temp->z);
 }
 
 t_data	*apply_isometric(t_data *data)
@@ -82,8 +43,10 @@ t_data	*apply_isometric(t_data *data)
 		yp *= data->zoom;
 		point->xp = (int)xp;
 		point->yp = (int)yp;
+		point->xp += (int)(data->trans_x + HEIGHT / 2.0);
+		point->yp += (int)(data->trans_y + WIDTH / 2.0);
 		i++;
 	}
 	free(temp);
-	return (adjust_neg(data));
+	return (data);
 }

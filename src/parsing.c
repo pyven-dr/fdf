@@ -36,6 +36,8 @@ static t_point	*get_point(char *splited, size_t i, size_t j)
 	point->x = i;
 	point->y = j;
 	point->z = ft_atoi(splited);
+	point->xp = 0;
+	point->yp = 0;
 	return (point);
 }
 
