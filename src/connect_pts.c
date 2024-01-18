@@ -20,7 +20,7 @@ static void	draw_line(t_point *pt1, t_point *pt2, t_data *data)
 	line.y0 = pt1->yp;
 	line.x1 = pt2->xp;
 	line.y1 = pt2->yp;
-	bresenham(line, data);
+	bresenham(line, data, pt1->color);
 }
 
 static void	connect_vpts(t_vector *vector, t_data *data)

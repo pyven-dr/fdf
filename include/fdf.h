@@ -27,6 +27,7 @@ typedef struct s_point
 	double		z;
 	int			xp;
 	int			yp;
+	int			color;
 }	t_point;
 
 typedef struct s_image
@@ -52,6 +53,10 @@ typedef struct s_data
 	double		rot_y;
 	double		rot_z;
 	double		z_scale;
+	int 		left_press;
+	int 		right_press;
+	int 		mouse_x;
+	int 		mouse_y;
 	t_vector	*vector;
 }	t_data;
 
@@ -80,9 +85,11 @@ typedef struct s_line
 # define E					101
 # define R					114
 # define F					102
+# define LEFT_BUTTON		1
+# define RIGHT_BUTTON		3
 
 t_vector	*parsing(int fd);
-void		bresenham(t_line line, t_data *data);
+void		bresenham(t_line line, t_data *data, int color);
 t_data		*apply_isometric(t_data *data);
 void		my_mlx_pixel_put(t_image *data, int x, int y, int color);
 void		connect_pts(t_vector *vector, t_data *data);

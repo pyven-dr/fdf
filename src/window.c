@@ -63,17 +63,19 @@ int	width_size(t_data *data)
 
 int	init_window(t_data *data)
 {
-	data->zoom = 2;
 	data->trans_x = 0;
 	data->trans_y = 0;
-	data->rot_x = 3.1;
-	data->rot_y = 0;
-	data->rot_z = 0;
-	data->z_scale = 1;
+	data->rot_x = 3.16;
+	data->rot_y = 0.02;
+	data->rot_z = 0.02;
+	data->z_scale = 0.5;
+	data->left_press = 0;
+	data->right_press = 0;
 	data->ptr = mlx_init();
 	height_size(data);
 	if (width_size(data) == 1)
 		return (1);
+	data->zoom = (HEIGHT / (double)data->size_y) / 1.5;
 	if (data->ptr == NULL)
 		return (1);
 	data->win = mlx_new_window(data->ptr, WIDTH, HEIGHT, "fdf");

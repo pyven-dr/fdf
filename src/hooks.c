@@ -31,6 +31,18 @@ static int	mouse_press(int key, int x, int y, void *param)
 	data = (t_data *)param;
 	if (key == MOUSE_SCROLL_UP || key == MOUSE_SCROLL_DOWN)
 		zoom(key, data);
+	if (key == LEFT_BUTTON)
+	{
+		data->mouse_x = x;
+		data->mouse_y = y;
+		data->left_press = 1;
+	}
+	if (key == RIGHT_BUTTON)
+	{
+		data->mouse_x = x;
+		data->mouse_y = y;
+		data->right_press = 1;
+	}
 	return (display_hook(data));
 }
 
@@ -48,6 +60,42 @@ static int	key_press(int key, void *param)
 		rotate(key, data);
 	else if (key == R || key == F)
 		rescale_z(key, data);
+	return (display_hook(data));
+}
+
+static int	mouse_release(int key, int x, int y, void *param)
+{
+	t_data *data;
+
+	(void)x;
+	(void)y;
+	data = (t_data *)param;
+	if (key == LEFT_BUTTON)
+		data->left_press = 0;
+	if (key == RIGHT_BUTTON)
+		data->right_press = 0;
+	return (0);
+}
+
+int	mouse_move(int x, int y, void *param)
+{
+	t_data	*data;
+
+	data = (t_data *)param;
+	if (data->left_press == 1)
+	{
+		data->rot_y += (x - data->mouse_x) * 0.002;
+		data->rot_x += (y - data->mouse_y) * 0.002;
+		data->mouse_x = x;
+		data->mouse_y = y;
+	}
+	else if (data->right_press == 1)
+	{
+		data->trans_x += (x - data->mouse_x);
+		data->trans_y += (y - data->mouse_y);
+		data->mouse_x = x;
+		data->mouse_y = y;
+	}
 	return (display_hook(data));
 }
 
@@ -69,6 +117,9 @@ int	controls(t_data *data)
 	if (mlx_hook(data->win, 2, 1L << 0, key_press, data) == -1)
 		return (-1);
 	if (mlx_hook(data->win, 4, 1L << 2, mouse_press, data) == -1)
+		return (-1);
+	mlx_hook(data->win, 5, 1L << 3, mouse_release, data);
+	if (mlx_hook(data->win, 6, 1L << 6, mouse_move, data) == -1)
 		return (-1);
 	mlx_hook(data->win, 17, 0, close_window, data);
 	return (0);

@@ -21,7 +21,7 @@ static int	get_sign(int num)
 	return (0);
 }
 
-static void	bresenham_smaller(t_line line, t_data *data)
+static void	bresenham_smaller(t_line line, t_data *data, int color)
 {
 	int	y;
 	int	slope;
@@ -34,7 +34,7 @@ static void	bresenham_smaller(t_line line, t_data *data)
 	error = -abs(line.x1 - line.x0);
 	while (x != line.x1 + get_sign(line.x1 - line.x0))
 	{
-		my_mlx_pixel_put(data->img, x, y, 4257279);
+		my_mlx_pixel_put(data->img, x, y, color);
 		error += slope;
 		if (error >= 0)
 		{
@@ -45,7 +45,7 @@ static void	bresenham_smaller(t_line line, t_data *data)
 	}
 }
 
-static void	bresenham_bigger(t_line line, t_data *data)
+static void	bresenham_bigger(t_line line, t_data *data, int color)
 {
 	int	y;
 	int	slope;
@@ -58,7 +58,7 @@ static void	bresenham_bigger(t_line line, t_data *data)
 	error = -abs(line.y1 - line.y0);
 	while (y != line.y1 + get_sign(line.y1 - line.y0))
 	{
-		my_mlx_pixel_put(data->img, x, y, 4257279);
+		my_mlx_pixel_put(data->img, x, y, color);
 		error += slope;
 		if (error >= 0)
 		{
@@ -69,7 +69,7 @@ static void	bresenham_bigger(t_line line, t_data *data)
 	}
 }
 
-void	bresenham(t_line line, t_data *data)
+void	bresenham(t_line line, t_data *data, int color)
 {
 	int	dx;
 	int	dy;
@@ -80,7 +80,7 @@ void	bresenham(t_line line, t_data *data)
 	{
 		while (line.x0 != line.x1 + get_sign(line.x1 - line.x0))
 		{
-			my_mlx_pixel_put(data->img, line.x0, line.y0, 4257279);
+			my_mlx_pixel_put(data->img, line.x0, line.y0, color);
 			line.x0 += get_sign(line.x1 - line.x0);
 		}
 	}
@@ -88,12 +88,12 @@ void	bresenham(t_line line, t_data *data)
 	{
 		while (line.y0 != line.y1 + get_sign(line.y1 - line.y0))
 		{
-			my_mlx_pixel_put(data->img, line.x0, line.y0, 4257279);
+			my_mlx_pixel_put(data->img, line.x0, line.y0, color);
 			line.y0 += get_sign(line.y1 - line.y0);
 		}
 	}
 	else if (dx >= dy)
-		bresenham_smaller(line, data);
+		bresenham_smaller(line, data, color);
 	else
-		bresenham_bigger(line, data);
+		bresenham_bigger(line, data, color);
 }

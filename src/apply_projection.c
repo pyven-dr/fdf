@@ -43,8 +43,8 @@ t_data	*apply_isometric(t_data *data)
 		yp *= data->zoom;
 		point->xp = (int)xp;
 		point->yp = (int)yp;
-		point->xp += (int)(data->trans_x + HEIGHT / 2.0);
-		point->yp += (int)(data->trans_y + WIDTH / 2.0);
+		point->xp += (int)(data->trans_x + WIDTH / 2.0);
+		point->yp += (int)(data->trans_y + HEIGHT / 2.0);
 		i++;
 	}
 	free(temp);
