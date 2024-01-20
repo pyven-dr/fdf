@@ -81,6 +81,9 @@ int	init_window(t_data *data)
 	data->win = mlx_new_window(data->ptr, WIDTH, HEIGHT, "fdf");
 	if (data->win == NULL)
 		return (1);
+	data->rot = malloc(sizeof(t_rot));
+	if (data->rot == NULL)
+		return (1);
 	return (0);
 }
 
@@ -94,6 +97,7 @@ int	close_window(void *param)
 	del_vector(data->vector);
 	free(data->img);
 	free(data->ptr);
+	free(data->rot);
 	free(data);
 	exit(0);
 }

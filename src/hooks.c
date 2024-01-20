@@ -22,28 +22,12 @@ void	my_mlx_pixel_put(t_image *data, int x, int y, int color)
 	*(unsigned int *) dst = color;
 }
 
-static int	mouse_press(int key, int x, int y, void *param)
+void	change_project(t_data *data)
 {
-	t_data	*data;
-
-	(void)x;
-	(void)y;
-	data = (t_data *)param;
-	if (key == MOUSE_SCROLL_UP || key == MOUSE_SCROLL_DOWN)
-		zoom(key, data);
-	if (key == LEFT_BUTTON)
-	{
-		data->mouse_x = x;
-		data->mouse_y = y;
-		data->left_press = 1;
-	}
-	if (key == RIGHT_BUTTON)
-	{
-		data->mouse_x = x;
-		data->mouse_y = y;
-		data->right_press = 1;
-	}
-	return (display_hook(data));
+	if (data->project == 0)
+		data->project = 1;
+	else
+		data->project = 0;
 }
 
 static int	key_press(int key, void *param)
@@ -60,53 +44,22 @@ static int	key_press(int key, void *param)
 		rotate(key, data);
 	else if (key == R || key == F)
 		rescale_z(key, data);
-	return (display_hook(data));
-}
-
-static int	mouse_release(int key, int x, int y, void *param)
-{
-	t_data *data;
-
-	(void)x;
-	(void)y;
-	data = (t_data *)param;
-	if (key == LEFT_BUTTON)
-		data->left_press = 0;
-	if (key == RIGHT_BUTTON)
-		data->right_press = 0;
-	return (0);
-}
-
-int	mouse_move(int x, int y, void *param)
-{
-	t_data	*data;
-
-	data = (t_data *)param;
-	if (data->left_press == 1)
-	{
-		data->rot_y += (x - data->mouse_x) * 0.002;
-		data->rot_x += (y - data->mouse_y) * 0.002;
-		data->mouse_x = x;
-		data->mouse_y = y;
-	}
-	else if (data->right_press == 1)
-	{
-		data->trans_x += (x - data->mouse_x);
-		data->trans_y += (y - data->mouse_y);
-		data->mouse_x = x;
-		data->mouse_y = y;
-	}
+	else if (key == SPACE)
+		change_project(data);
 	return (display_hook(data));
 }
 
 int	display_hook(t_data *data)
 {
-	data->img->img = mlx_new_image(data->ptr, 1920, 1080);
+	data->img->img = mlx_new_image(data->ptr, WIDTH, HEIGHT);
 	if (data->img->img == NULL)
 		return (1);
 	data->img->addr = mlx_get_data_addr(data->img->img, \
 		&data->img->bits_per_pixel, &data->img->length, &data->img->endian);
-	apply_isometric(data);
+	if (data->project == 0)
+		apply_isometric(data);
+	else
+		apply_cavalier(data);
 	connect_pts(data->vector, data);
 	mlx_destroy_image(data->ptr, data->img->img);
 	return (0);

@@ -11,7 +11,7 @@ IFLAGS = \
 		 -I $(LIBFT_DIR)/$(INCLUDE_DIR) \
 		 -I $(MLX_DIR)
 
-LFLAGS = -Lmlx_linux -lXext -lX11 -lm -Ofast
+LFLAGS = -Lmlx_linux -lXext -lX11 -lm -Ofast -O3
 
 SRC =  main.c \
 		parsing.c \
@@ -23,6 +23,7 @@ SRC =  main.c \
 		window.c \
 		apply_rotation.c \
 		check_file.c \
+		mouse_hook.c \
 
 BUILD_DIR = .build
 

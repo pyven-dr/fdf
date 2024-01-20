@@ -15,9 +15,9 @@
 void	zoom(int key, t_data *data)
 {
 	if (key == MOUSE_SCROLL_UP)
-		data->zoom += 0.5;
+		data->zoom /= 0.9;
 	else if (key == MOUSE_SCROLL_DOWN)
-		data->zoom -= 0.5;
+		data->zoom *= 0.9;
 	if (data->zoom < 1)
 		data->zoom = 1;
 }

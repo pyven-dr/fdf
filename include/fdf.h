@@ -39,13 +39,23 @@ typedef struct s_image
 	int		endian;
 }			t_image;
 
+typedef struct s_rot
+{
+	double	cosx;
+	double	sinx;
+	double	cosy;
+	double	siny;
+	double	cosz;
+	double	sinz;
+}			t_rot;
+
 typedef struct s_data
 {
 	void		*ptr;
 	void		*win;
 	t_image		*img;
 	double		size_x;
-	size_t		size_y;
+	double		size_y;
 	double		zoom;
 	double		trans_x;
 	double		trans_y;
@@ -53,10 +63,12 @@ typedef struct s_data
 	double		rot_y;
 	double		rot_z;
 	double		z_scale;
-	int 		left_press;
-	int 		right_press;
-	int 		mouse_x;
-	int 		mouse_y;
+	int			left_press;
+	int			right_press;
+	int			mouse_x;
+	int			mouse_y;
+	int			project;
+	t_rot		*rot;
 	t_vector	*vector;
 }	t_data;
 
@@ -68,6 +80,7 @@ typedef struct s_line
 	int	y1;
 }	t_line;
 
+# define SQRT2				1.414214
 # define WIDTH 				1920
 # define HEIGHT 			1080
 # define MOUSE_SCROLL_UP	4
@@ -87,6 +100,7 @@ typedef struct s_line
 # define F					102
 # define LEFT_BUTTON		1
 # define RIGHT_BUTTON		3
+# define SPACE				32
 
 t_vector	*parsing(int fd);
 void		bresenham(t_line line, t_data *data, int color);
@@ -98,14 +112,18 @@ int			controls(t_data *data);
 int			display_hook(t_data *data);
 void		translate(int key, t_data *data);
 int			close_window(void *param);
-void		apply_rx(double angle, double *y, double *z);
-void		apply_ry(double angle, double *x, double *z);
-void		apply_rz(t_data *data, double angle, double *x, double *y);
+void		apply_rx(t_data *data, double *y, double *z);
+void		apply_ry(t_data *data, double *x, double *z);
+void		apply_rz(t_data *data, double *x, double *y);
 void		rotate(int key, t_data *data);
 int			init_window(t_data *data);
 int			check_file(char *file);
 void		rescale_z(int key, t_data *data);
 void		height_size(t_data	*data);
 int			width_size(t_data *data);
+t_data		*apply_cavalier(t_data *data);
+int			mouse_press(int key, int x, int y, void *param);
+int			mouse_release(int key, int x, int y, void *param);
+int			mouse_move(int x, int y, void *param);
 
 #endif
