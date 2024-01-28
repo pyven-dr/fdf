@@ -38,7 +38,7 @@ static int	key_press(int key, void *param)
 	if (key >= LEFT_ARROW && key <= DOWN_ARROW)
 		translate(key, data);
 	else if (key == ESCAPE)
-		close_window(data);
+		close_window(data, 0);
 	else if (key == W || key == A || key == S || key == D \
 		|| key == Q || key == E)
 		rotate(key, data);
@@ -46,14 +46,20 @@ static int	key_press(int key, void *param)
 		rescale_z(key, data);
 	else if (key == SPACE)
 		change_project(data);
-	return (display_hook(data));
+	display_hook(data);
+	return (0);
 }
 
 int	display_hook(t_data *data)
 {
+	if (data->img->img)
+		mlx_destroy_image(data->ptr, data->img->img);
 	data->img->img = mlx_new_image(data->ptr, WIDTH, HEIGHT);
 	if (data->img->img == NULL)
-		return (1);
+	{
+		close_window(data, 1);
+		exit(1);
+	}
 	data->img->addr = mlx_get_data_addr(data->img->img, \
 		&data->img->bits_per_pixel, &data->img->length, &data->img->endian);
 	if (data->project == 0)
@@ -61,19 +67,15 @@ int	display_hook(t_data *data)
 	else
 		apply_cavalier(data);
 	connect_pts(data->vector, data);
-	mlx_destroy_image(data->ptr, data->img->img);
 	return (0);
 }
 
 int	controls(t_data *data)
 {
-	if (mlx_hook(data->win, 2, 1L << 0, key_press, data) == -1)
-		return (-1);
-	if (mlx_hook(data->win, 4, 1L << 2, mouse_press, data) == -1)
-		return (-1);
+	mlx_hook(data->win, 2, 1L << 0, key_press, data);
+	mlx_hook(data->win, 4, 1L << 2, mouse_press, data);
 	mlx_hook(data->win, 5, 1L << 3, mouse_release, data);
-	if (mlx_hook(data->win, 6, 1L << 6, mouse_move, data) == -1)
-		return (-1);
+	mlx_hook(data->win, 6, 1L << 6, mouse_move, data);
 	mlx_hook(data->win, 17, 0, close_window, data);
 	return (0);
 }

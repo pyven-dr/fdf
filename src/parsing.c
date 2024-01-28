@@ -48,7 +48,7 @@ static t_point	*get_point(char *splitted, size_t i, size_t j)
 	t_point	*point;
 
 	point = malloc(sizeof(t_point));
-	if (!point)
+	if (point == NULL)
 		return (NULL);
 	point->x = i;
 	point->y = j;

@@ -16,24 +16,22 @@ int	mouse_press(int key, int x, int y, void *param)
 {
 	t_data	*data;
 
-	(void)x;
-	(void)y;
 	data = (t_data *)param;
 	if (key == MOUSE_SCROLL_UP || key == MOUSE_SCROLL_DOWN)
 		zoom(key, data);
-	if (key == LEFT_BUTTON)
+	else if (key == LEFT_BUTTON)
 	{
 		data->mouse_x = x;
 		data->mouse_y = y;
 		data->left_press = 1;
 	}
-	if (key == RIGHT_BUTTON)
+	else
 	{
 		data->mouse_x = x;
 		data->mouse_y = y;
 		data->right_press = 1;
 	}
-	return (display_hook(data));
+	return (0);
 }
 
 int	mouse_release(int key, int x, int y, void *param)
@@ -45,7 +43,7 @@ int	mouse_release(int key, int x, int y, void *param)
 	data = (t_data *)param;
 	if (key == LEFT_BUTTON)
 		data->left_press = 0;
-	if (key == RIGHT_BUTTON)
+	else
 		data->right_press = 0;
 	return (0);
 }
@@ -57,10 +55,11 @@ int	mouse_move(int x, int y, void *param)
 	data = (t_data *)param;
 	if (data->left_press == 1)
 	{
-		data->rot_y += (x - data->mouse_x) * 0.002;
-		data->rot_x += (y - data->mouse_y) * 0.002;
+		data->rot_y += (x - data->mouse_x) * 0.003;
+		data->rot_x += (y - data->mouse_y) * 0.003;
 		data->mouse_x = x;
 		data->mouse_y = y;
+		display_hook(data);
 	}
 	else if (data->right_press == 1)
 	{
@@ -68,6 +67,7 @@ int	mouse_move(int x, int y, void *param)
 		data->trans_y += (y - data->mouse_y);
 		data->mouse_x = x;
 		data->mouse_y = y;
+		display_hook(data);
 	}
-	return (display_hook(data));
+	return (0);
 }

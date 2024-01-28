@@ -111,7 +111,7 @@ void		zoom(int key, t_data *data);
 int			controls(t_data *data);
 int			display_hook(t_data *data);
 void		translate(int key, t_data *data);
-int			close_window(void *param);
+int			close_window(void *param, int value);
 void		apply_rx(t_data *data, double *y, double *z);
 void		apply_ry(t_data *data, double *x, double *z);
 void		apply_rz(t_data *data, double *x, double *y);

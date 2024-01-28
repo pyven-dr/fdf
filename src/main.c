@@ -20,7 +20,11 @@ int	main(int argc, char **argv)
 	if (argc == 2 && check_file(argv[1]) != -1)
 	{
 		data = malloc(sizeof(t_data));
+		if (data == NULL)
+			return (1);
 		data->img = malloc(sizeof(t_image));
+		if (data->img == NULL)
+			return (free(data), 1);
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
 			return (free(data), free(data->img), 1);
@@ -29,11 +33,10 @@ int	main(int argc, char **argv)
 		if (data->vector == NULL)
 			return (free(data), free(data->img), 1);
 		if (init_window(data) == 1)
-			return (close_window(data), 1);
-		if (controls(data) == -1)
-			return (close_window(data), 1);
-		display_hook(data);
+			close_window(data, 1);
+		controls(data);
 		mlx_loop(data->ptr);
+		return (0);
 	}
-	return (0);
+	return (1);
 }

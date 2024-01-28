@@ -11,7 +11,7 @@ IFLAGS = \
 		 -I $(LIBFT_DIR)/$(INCLUDE_DIR) \
 		 -I $(MLX_DIR)
 
-LFLAGS = -Lmlx_linux -lXext -lX11 -lm -Ofast -O3
+LFLAGS = -Lmlx_linux -lXext -lX11 -lm -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
 
 SRC =  main.c \
 		parsing.c \

@@ -42,6 +42,8 @@ t_data	*apply_isometric(t_data *data)
 
 	i = 0;
 	temp = malloc(sizeof(t_point));
+	if (temp == NULL)
+		close_window(data, 1);
 	init_rot(data);
 	while (i < data->vector->size)
 	{
@@ -51,10 +53,8 @@ t_data	*apply_isometric(t_data *data)
 		yp = (0.816497 * temp->z) - 0.408248 * (temp->x + temp->y);
 		xp *= data->zoom;
 		yp *= data->zoom;
-		point->xp = (int)xp;
-		point->yp = (int)yp;
-		point->xp += (int)(data->trans_x + WIDTH * 0.5);
-		point->yp += (int)(data->trans_y + HEIGHT * 0.5);
+		point->xp = (int)(xp + (data->trans_x + WIDTH * 0.5));
+		point->yp = (int)(yp + (data->trans_y + HEIGHT * 0.5));
 		i++;
 	}
 	free(temp);
@@ -71,6 +71,8 @@ t_data	*apply_cavalier(t_data *data)
 
 	i = 0;
 	temp = malloc(sizeof(t_point));
+	if (temp == NULL)
+		close_window(data, 1);
 	init_rot(data);
 	while (i < data->vector->size)
 	{
@@ -80,10 +82,8 @@ t_data	*apply_cavalier(t_data *data)
 		yp = temp->y + temp->z * 0.7071066;
 		xp *= data->zoom;
 		yp *= data->zoom;
-		point->xp = (int)xp;
-		point->yp = (int)yp;
-		point->xp += (int)(data->trans_x + WIDTH * 0.5);
-		point->yp += (int)(data->trans_y + HEIGHT * 0.5);
+		point->xp = (int)(xp + (data->trans_x + WIDTH * 0.5));
+		point->yp = (int)(yp + (data->trans_y + HEIGHT * 0.5));
 		i++;
 	}
 	free(temp);

@@ -20,6 +20,7 @@ void	zoom(int key, t_data *data)
 		data->zoom *= 0.9;
 	if (data->zoom < 1)
 		data->zoom = 1;
+	display_hook(data);
 }
 
 void	translate(int key, t_data *data)
