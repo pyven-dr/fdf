@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <math.h>
+# include <errno.h>
 
 typedef struct s_point
 {
@@ -68,6 +69,7 @@ typedef struct s_data
 	int			mouse_x;
 	int			mouse_y;
 	int			project;
+	int			pt_only;
 	t_rot		*rot;
 	t_vector	*vector;
 }	t_data;
@@ -99,10 +101,10 @@ typedef struct s_line
 # define R					114
 # define F					102
 # define LEFT_BUTTON		1
-# define RIGHT_BUTTON		3
 # define SPACE				32
+# define ALT				65513
 
-t_vector	*parsing(int fd);
+t_vector	*parsing(int fd, t_data *data);
 void		bresenham(t_line line, t_data *data, int color);
 t_data		*apply_isometric(t_data *data);
 void		my_mlx_pixel_put(t_image *data, int x, int y, int color);
@@ -125,5 +127,6 @@ t_data		*apply_cavalier(t_data *data);
 int			mouse_press(int key, int x, int y, void *param);
 int			mouse_release(int key, int x, int y, void *param);
 int			mouse_move(int x, int y, void *param);
+void		only_pts(t_vector *vector, t_data *data);
 
 #endif

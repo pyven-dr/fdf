@@ -22,12 +22,22 @@ void	my_mlx_pixel_put(t_image *data, int x, int y, int color)
 	*(unsigned int *) dst = color;
 }
 
-void	change_project(t_data *data)
+void	change_project(t_data *data, int key)
 {
-	if (data->project == 0)
-		data->project = 1;
+	if (key == SPACE)
+	{
+		if (data->project == 0)
+			data->project = 1;
+		else
+			data->project = 0;
+	}
 	else
-		data->project = 0;
+	{
+		if (data->pt_only == 0)
+			data->pt_only = 1;
+		else
+			data->pt_only = 0;
+	}
 }
 
 static int	key_press(int key, void *param)
@@ -44,8 +54,8 @@ static int	key_press(int key, void *param)
 		rotate(key, data);
 	else if (key == R || key == F)
 		rescale_z(key, data);
-	else if (key == SPACE)
-		change_project(data);
+	else if (key == SPACE || key == ALT)
+		change_project(data, key);
 	display_hook(data);
 	return (0);
 }

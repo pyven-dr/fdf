@@ -59,7 +59,22 @@ static t_point	*get_point(char *splitted, size_t i, size_t j)
 	return (point);
 }
 
-t_vector	*parsing(int fd)
+static char	*read_line(t_vector *vector, t_data *data, int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	if (errno != 0)
+	{
+		del_vector(vector);
+		free(data->img);
+		free(data);
+		exit(1);
+	}
+	return (line);
+}
+
+t_vector	*parsing(int fd, t_data *data)
 {
 	t_vector	*vector;
 	char		*line;
@@ -68,7 +83,7 @@ t_vector	*parsing(int fd)
 
 	i[1] = 0;
 	vector = new_vector(10, sizeof(t_point));
-	line = get_next_line(fd);
+	line = read_line(vector, data, fd);
 	while (line && vector)
 	{
 		splitted = ft_split(line, ' ');
@@ -82,7 +97,7 @@ t_vector	*parsing(int fd)
 			i[0]++;
 		}
 		ft_free(splitted, line);
-		line = get_next_line(fd);
+		line = read_line(vector, data, fd);
 		i[1]++;
 	}
 	return (free(line), vector);

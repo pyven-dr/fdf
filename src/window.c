@@ -12,56 +12,7 @@
 
 #include "fdf.h"
 
-void	height_size(t_data	*data)
-{
-	t_point	*point;
-
-	point = get_elem_vector(data->vector, data->vector->size - 1);
-	data->size_y = point->y + 1;
-}
-
-static void	average(t_data *data, int *lines)
-{
-	double	moy;
-	size_t	i;
-
-	i = 0;
-	moy = 0;
-	while ((double)i < data->size_y)
-		moy += lines[i++];
-	data->size_x = moy / (double)data->size_y;
-}
-
-int	width_size(t_data *data)
-{
-	int		*lines;
-	size_t	i;
-	size_t	j;
-	t_point	*point;
-
-	i = 0;
-	j = 0;
-	lines = malloc(sizeof(double) * (int)data->size_y);
-	if (lines == NULL)
-		return (1);
-	point = get_elem_vector(data->vector, i);
-	lines[j] = 0;
-	while (i < data->vector->size)
-	{
-		if (point->x == 0 && point->y != 0)
-		{
-			j++;
-			lines[j] = 0;
-		}
-		lines[j]++;
-		point = get_elem_vector(data->vector, i++);
-	}
-	average(data, lines);
-	free(lines);
-	return (0);
-}
-
-int	init_window(t_data *data)
+void	init_values(t_data *data)
 {
 	data->trans_x = 0;
 	data->trans_y = 0;
@@ -72,13 +23,24 @@ int	init_window(t_data *data)
 	data->left_press = 0;
 	data->right_press = 0;
 	data->project = 0;
+	data->pt_only = 0;
+}
+
+int	init_window(t_data *data)
+{
+	init_values(data);
 	data->ptr = mlx_init();
+	if (data->ptr == NULL)
+	{
+		del_vector(data->vector);
+		free(data->img);
+		free(data);
+		exit(1);
+	}
 	height_size(data);
 	if (width_size(data) == 1)
 		return (1);
 	data->zoom = (HEIGHT / (double)data->size_y) / 1.5;
-	if (data->ptr == NULL)
-		return (1);
 	data->win = mlx_new_window(data->ptr, WIDTH, HEIGHT, "fdf");
 	if (data->win == NULL)
 		return (1);

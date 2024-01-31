@@ -69,7 +69,26 @@ static void	connect_hpts(t_vector *vector, t_data *data)
 
 void	connect_pts(t_vector *vector, t_data *data)
 {
-	connect_vpts(vector, data);
-	connect_hpts(vector, data);
+	if (data->pt_only == 0)
+	{
+		connect_vpts(vector, data);
+		connect_hpts(vector, data);
+	}
+	else
+		only_pts(vector, data);
 	mlx_put_image_to_window(data->ptr, data->win, data->img->img, 0, 0);
+}
+
+void	only_pts(t_vector *vector, t_data *data)
+{
+	size_t	i;
+	t_point	*pt;
+
+	i = 0;
+	while (i < vector->size)
+	{
+		pt = get_elem_vector(vector, i);
+		my_mlx_pixel_put(data->img, pt->xp, pt->yp, pt->color);
+		i++;
+	}
 }

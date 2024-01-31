@@ -24,6 +24,7 @@ SRC =  main.c \
 		apply_rotation.c \
 		check_file.c \
 		mouse_hook.c \
+		get_size.c \
 
 BUILD_DIR = .build
 

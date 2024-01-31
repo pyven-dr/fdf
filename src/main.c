@@ -27,11 +27,11 @@ int	main(int argc, char **argv)
 			return (free(data), 1);
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
-			return (free(data), free(data->img), 1);
-		data->vector = parsing(fd);
+			return (free(data->img), free(data), 1);
+		data->vector = parsing(fd, data);
 		close(fd);
 		if (data->vector == NULL)
-			return (free(data), free(data->img), 1);
+			return (free(data->img), free(data), 1);
 		if (init_window(data) == 1)
 			close_window(data, 1);
 		controls(data);
