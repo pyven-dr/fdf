@@ -50,7 +50,7 @@ NAME = fdf
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX)
-	$(CC) -o $(NAME) $(CFLAGS) $(LFLAGS)  $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX) -g
+	$(CC) -o $(NAME) $(CFLAGS) $(LFLAGS)  $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX)
 
 -include $(DEP)
 
