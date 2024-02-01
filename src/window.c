@@ -24,6 +24,9 @@ void	init_values(t_data *data)
 	data->right_press = 0;
 	data->project = 0;
 	data->pt_only = 0;
+	data->img->img = NULL;
+	data->win = NULL;
+	data->rot = NULL;
 }
 
 int	init_window(t_data *data)
@@ -31,23 +34,17 @@ int	init_window(t_data *data)
 	init_values(data);
 	data->ptr = mlx_init();
 	if (data->ptr == NULL)
-	{
-		del_vector(data->vector);
-		free(data->img);
-		free(data);
-		exit(1);
-	}
+		return (1);
 	height_size(data);
 	if (width_size(data) == 1)
 		return (1);
 	data->zoom = (HEIGHT / (double)data->size_y) / 1.5;
-	data->win = mlx_new_window(data->ptr, WIDTH, HEIGHT, "fdf");
+	data->win = mlx_new_window(data->ptr, WIDTH, HEIGHT, "fdf pyven-dr");
 	if (data->win == NULL)
 		return (1);
 	data->rot = malloc(sizeof(t_rot));
 	if (data->rot == NULL)
 		return (1);
-	data->img->img = NULL;
 	display_hook(data);
 	return (0);
 }
@@ -57,12 +54,17 @@ int	close_window(void *param, int value)
 	t_data	*data;
 
 	data = (t_data *)param;
-	mlx_destroy_image(data->ptr, data->img->img);
-	mlx_destroy_window(data->ptr, data->win);
-	mlx_destroy_display(data->ptr);
+	if (data->img->img)
+		mlx_destroy_image(data->ptr, data->img->img);
+	if (data->win)
+		mlx_destroy_window(data->ptr, data->win);
+	if (data->ptr)
+	{
+		mlx_destroy_display(data->ptr);
+		free(data->ptr);
+	}
 	del_vector(data->vector);
 	free(data->img);
-	free(data->ptr);
 	free(data->rot);
 	free(data);
 	exit(value);
