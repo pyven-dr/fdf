@@ -12,6 +12,13 @@
 
 #include "fdf.h"
 
+static int	ft_abs(int num)
+{
+	if (num < 0)
+		num *= -1;
+	return (num);
+}
+
 static int	get_sign(int num)
 {
 	if (num < 0)
@@ -30,8 +37,8 @@ static void	bresenham_smaller(t_line line, t_data *data, int color)
 
 	x = line.x0;
 	y = line.y0;
-	slope = 2 * abs(line.y1 - line.y0);
-	error = -abs(line.x1 - line.x0);
+	slope = 2 * ft_abs(line.y1 - line.y0);
+	error = -ft_abs(line.x1 - line.x0);
 	while (x != line.x1 + get_sign(line.x1 - line.x0))
 	{
 		my_mlx_pixel_put(data->img, x, y, color);
@@ -39,7 +46,7 @@ static void	bresenham_smaller(t_line line, t_data *data, int color)
 		if (error >= 0)
 		{
 			y += get_sign(line.y1 - line.y0);
-			error += -2 * abs(line.x1 - line.x0);
+			error += -2 * ft_abs(line.x1 - line.x0);
 		}
 		x += get_sign(line.x1 - line.x0);
 	}
@@ -54,8 +61,8 @@ static void	bresenham_bigger(t_line line, t_data *data, int color)
 
 	x = line.x0;
 	y = line.y0;
-	slope = 2 * abs(line.x1 - line.x0);
-	error = -abs(line.y1 - line.y0);
+	slope = 2 * ft_abs(line.x1 - line.x0);
+	error = -ft_abs(line.y1 - line.y0);
 	while (y != line.y1 + get_sign(line.y1 - line.y0))
 	{
 		my_mlx_pixel_put(data->img, x, y, color);
@@ -63,7 +70,7 @@ static void	bresenham_bigger(t_line line, t_data *data, int color)
 		if (error >= 0)
 		{
 			x += get_sign(line.x1 - line.x0);
-			error += -2 * abs(line.y1 - line.y0);
+			error += -2 * ft_abs(line.y1 - line.y0);
 		}
 		y += get_sign(line.y1 - line.y0);
 	}
@@ -74,8 +81,8 @@ void	bresenham(t_line line, t_data *data, int color)
 	int	dx;
 	int	dy;
 
-	dx = abs(line.x1 - line.x0);
-	dy = abs(line.y1 - line.y0);
+	dx = ft_abs(line.x1 - line.x0);
+	dy = ft_abs(line.y1 - line.y0);
 	if (dy == 0)
 	{
 		while (line.x0 != line.x1 + get_sign(line.x1 - line.x0))
