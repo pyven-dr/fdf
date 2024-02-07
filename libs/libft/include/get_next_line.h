@@ -6,7 +6,7 @@
 /*   By: pyven-dr <pyven-dr@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 20:49:05 by pyven-dr          #+#    #+#             */
-/*   Updated: 2023/12/02 20:49:05 by pyven-dr         ###   ########.fr       */
+/*   Updated: 2024/02/07 06:22:21 by pyven-dr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,5 @@
 # include "libft.h"
 
 char		*get_next_line(int fd);
-static char	*get_lines(char *save);
-static char	*line_read(int fd, char *buffer, char *backup);
 
 #endif
