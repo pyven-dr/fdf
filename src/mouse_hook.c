@@ -53,15 +53,15 @@ int	mouse_move(int x, int y, void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (data->left_press == 1)
+	if (data->left_press == 1 && (x + y) % 2)
 	{
-		data->rot_y += (x - data->mouse_x) * 0.003;
-		data->rot_x += (y - data->mouse_y) * 0.003;
+		data->rot_y += (x - data->mouse_x) * 0.005;
+		data->rot_x += (y - data->mouse_y) * 0.005;
 		data->mouse_x = x;
 		data->mouse_y = y;
 		display_hook(data);
 	}
-	else if (data->right_press == 1)
+	else if (data->right_press == 1 && (x + y) % 2)
 	{
 		data->trans_x += (x - data->mouse_x);
 		data->trans_y += (y - data->mouse_y);

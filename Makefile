@@ -11,7 +11,7 @@ IFLAGS = \
 		 -I $(LIBFT_DIR)/$(INCLUDE_DIR) \
 		 -I $(MLX_DIR)
 
-LFLAGS = -Lmlx_linux -lXext -lX11 -lm -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
+LFLAGS = -Lmlx -lmlx -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
 
 SRC =  main.c \
 		parsing.c \
@@ -50,7 +50,7 @@ NAME = fdf
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX)
-	$(CC) -o $(NAME) $(CFLAGS) $(LFLAGS)  $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJ) $(LIBFT_DIR)/$(LIBFT) $(MLX_DIR)/$(MLX) $(LFLAGS)
 
 -include $(DEP)
 
