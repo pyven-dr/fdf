@@ -5,8 +5,11 @@
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![42fdf](https://github.com/pyven-dr/fdf/assets/150053673/8ab6378c-46ca-44d0-89d2-f19ff3656c3c)
 
+![t1fdf](https://github.com/pyven-dr/fdf/assets/150053673/2690666c-9eed-480a-b726-8728985692b7)
+
+![juliafdf](https://github.com/pyven-dr/fdf/assets/150053673/c474a53f-3b96-4ce1-b5f3-97def94632a4)
 
 ## How to use
 
